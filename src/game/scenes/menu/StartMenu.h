@@ -21,8 +21,13 @@ private:
   fjfj::OrthographicCamera camera;
   fjfj::SpriteBatch batch;
 
-  GLint model_location;
-  GLint proj_location;
+  GLint simple_model_location;
+  GLint simple_proj_location;
+
+  GLint animated_model_location;
+  GLint animated_proj_location;
+  GLint animated_frameData_location;
+
 };
 
 std::unique_ptr<Scene> createStartMenu();
