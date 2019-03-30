@@ -55,7 +55,7 @@ void EpisodesScene::update() {
   {
     progress += 1 / 20.0f;
     if (progress >= 1.0f) {
-      GlobalContext::changeScene(GlobalContext::testScene.get());
+      GlobalContext::changeScene(GlobalContext::eposides[currentScreen - 1].get());
     }
 
     break;
@@ -98,7 +98,7 @@ void EpisodesScene::draw(float delta) {
   float scalex = GlobalContext::SCREEN_WIDTH / width;
   float scaley = GlobalContext::SCREEN_HEIGHT / height;
   batch.draw(*ResourseManager::episodesTexture.get(), simple_model_location,
-    glm::vec2{ x * scalex, y * scaley }, scalex * screenSize, scaley * screenSize);
+    glm::vec2{x * scalex, y * scaley}, scalex * screenSize, scaley * screenSize);
 
   ResourseManager::animatedShader->Use();
   glUniformMatrix4fv(animated_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
@@ -106,7 +106,7 @@ void EpisodesScene::draw(float delta) {
   glUniform1f(animated_frameTime_location, noiseSpeed);
   glUniform1i(animated_frameCount_location, noiseFrames);
   for (int i = 0; i < 3; i++) {
-    batch.draw(*ResourseManager::noiseTexture.get(), animated_model_location, glm::vec2{ (x - screenData[i][0]) * scalex , (y - screenData[i][1]) * scaley }, screenData[i][4] * scalex, screenData[i][5] * scaley);
+    batch.draw(*ResourseManager::noiseTexture.get(), animated_model_location, glm::vec2{(x - screenData[i][0]) * scalex, (y - screenData[i][1]) * scaley}, screenData[i][4] * scalex, screenData[i][5] * scaley);
   }
 
 }

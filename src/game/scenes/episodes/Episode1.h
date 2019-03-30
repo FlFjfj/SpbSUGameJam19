@@ -1,10 +1,4 @@
-//
-// Created by hedonistant on 30.03.19.
-//
-
-#ifndef GAME_EPISODE1_H
-#define GAME_EPISODE1_H
-
+#pragma once
 
 #include <memory>
 #include <game/GlobalContext.h>
@@ -20,38 +14,38 @@
         Collect other stuff and keep friend1
 
  */
+
 enum class Stages {
-    Intro,
-    SelectCase,
-    HelpToCollect,
-    RefuseToHelp,
-    HandToCops,
-    CollectBar,
-    Ending
+  Intro,
+  SelectCase,
+  HelpToCollect,
+  RefuseToHelp,
+  HandToCops,
+  CollectBar,
+  Ending
 };
 
-class  Episode1 : public Scene {
+class Episode1 : public Scene {
 public:
-    void init() override ;
-    void enter() override ;
-    void update() override ;
-    void draw(float complete) override ;
-    void onMouseButton(int button, int action, int mods) override;
-    void onKey(int key, int scancode, int action, int mods) override;
+  Episode1();
+
+  void init() override;
+  void enter() override;
+  void update() override;
+  void draw(float complete) override;
+  void onMouseButton(int button, int action, int mods) override;
+  void onKey(int key, int scancode, int action, int mods) override;
 
 private:
-    float timeFromStart;
-    int numPieces;
-    bool barCollected;
-    Stages stage;
-    int buttonPos;
-    void changeStage(Stages stage1);
+  float timeFromStart;
+  int numPieces;
+  bool barCollected;
+  Stages stage;
+  int buttonPos;
+  void changeStage(Stages stage1);
 
+  static const int N_BUTTONS;
+  static const float INTRO_STAGE_LENGTH;
 };
 
-
-
 std::unique_ptr<Scene> createEpisode1();
-
-
-#endif //GAME_EPISODE1_H
