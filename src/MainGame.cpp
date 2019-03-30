@@ -34,9 +34,9 @@ void MainGame::init(GLFWwindow* window) {
   GlobalContext::testScene = createTestScene();
   GlobalContext::reset();
 #ifdef TEST_SCENE
-  changeScene(GlobalContext::testScene.get());
+  GlobalContext::changeScene(GlobalContext::testScene.get());
 #else
-  changeScene(GlobalContext::startMenu.get());
+  GlobalContext::changeScene(GlobalContext::startMenu.get());
 #endif
 
   glfwSetMouseButtonCallback(window, MainGame::onMouseCallback);
@@ -58,7 +58,4 @@ void MainGame::update(float delta) {
 }
 
 
-void MainGame::changeScene(Scene* newScene) {
-  GlobalContext::currentScene = newScene;
-  GlobalContext::currentScene->enter();
-}
+

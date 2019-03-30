@@ -18,6 +18,4 @@ public:
 
   void init(GLFWwindow*) override;
   void update(float) override;
-  void changeScene(Scene* newScene);
-
 };

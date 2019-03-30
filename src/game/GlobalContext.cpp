@@ -32,3 +32,8 @@ void GlobalContext::reset() {
     GlobalContext::broAvialable.resize(GlobalContext::nBro);
     std::fill(GlobalContext::broAvialable.begin(), broAvialable.end(), 1);
 }
+
+void GlobalContext::changeScene(Scene* newScene) {
+  currentScene = newScene;
+  currentScene->enter();
+}

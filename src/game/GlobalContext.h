@@ -9,6 +9,7 @@
 
 struct GlobalContext {
   static void reset();
+  static void changeScene(Scene* newScene);
 
   static GLFWwindow* window;
   static Scene* currentScene;
