@@ -24,7 +24,9 @@ void EpisodesScene::enter() {
 
 void EpisodesScene::update() {
   elapsedTime += GlobalContext::TICK_DELTA;
-
+  if (elapsedTime>=1){
+      GlobalContext::changeScene(GlobalContext::eposides[0].get());
+  }
   camera.update();
 }
 
