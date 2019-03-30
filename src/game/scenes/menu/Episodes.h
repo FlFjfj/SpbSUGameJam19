@@ -9,7 +9,7 @@
 #include <game/Scene.h>
 
 class EpisodesScene : public Scene {
-public: 
+public:
   EpisodesScene();
 
   void init() override;
@@ -33,6 +33,22 @@ private:
   float elapsedTime = 0;
   const float noiseSpeed = 0.05f;
   const int noiseFrames = 6;
+
+  int currentScreen = 0;
+  float progress = 0;
+
+  enum ScrrenState {
+    EXIT, MOVE, ENTER
+  } state;
+
+  const float screenSize = 5500;
+  const float screenData[16][6] = {
+  {0, 0, 5500, 5500, 0, 0},
+  { 1700, 2000, 1850, 1350, 1200, 900 },
+  { 400, 2100, 1650, 1150, 850, 770 }
+  };
+
 };
+
 
 std::unique_ptr<Scene> createEpisodesScene();
