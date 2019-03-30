@@ -15,11 +15,16 @@ void MainGame::init(GLFWwindow* window) {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
   ResourseManager::initResourses();
   auto error = glGetError();
   std::cout << "resource init error: " << error << std::endl;
 
   GlobalContext::startMenu = createStartMenu();
+  GlobalContext::reset();
+
+
+
   changeScene(GlobalContext::startMenu.get());
 }
 
