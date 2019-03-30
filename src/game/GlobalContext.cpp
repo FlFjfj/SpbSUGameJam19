@@ -1,7 +1,7 @@
 #include "GlobalContext.h"
 
 GLFWwindow* GlobalContext::window = nullptr;
-void* GlobalContext::currentContext = nullptr;
+Scene* GlobalContext::currentScene = nullptr;
 
 std::unique_ptr<Scene> GlobalContext::startMenu = {};
 std::unique_ptr<Scene> GlobalContext::testScene = {};

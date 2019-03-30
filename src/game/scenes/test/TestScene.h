@@ -13,8 +13,8 @@ class TestScene : public Scene {
   void draw(float complete) override;
 
 private:
-  static void mouseButtonCallbackHelper(GLFWwindow*, int button, int action, int mods);
-  void onMouseButton(int button, int action, int mods);
+  void onMouseButton(int button, int action, int mods) override;
+  void onKey(int key, int scancode, int action, int mods) override;
 
   float color;
   void* prevContext;

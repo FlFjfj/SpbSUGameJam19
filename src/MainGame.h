@@ -8,8 +8,10 @@
 
 class MainGame : public fjfj::GameBody {
 private:
-  Scene* currentScene;
   float timeSinceTick = 0;
+
+  static void onMouseCallback(GLFWwindow*, int button, int action, int mods);
+  static void onKeyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
 
 public:
   MainGame();

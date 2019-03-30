@@ -7,6 +7,14 @@
 #include <game/scenes/menu/StartMenu.h>
 #include <game/scenes/test/TestScene.h>
 
+void MainGame::onMouseCallback(GLFWwindow *, int button, int action, int mods) {
+  GlobalContext::currentScene->onMouseButton(button, action, mods);
+}
+
+void MainGame::onKeyCallback(GLFWwindow *, int key, int scancode, int action, int mods) {
+  GlobalContext::currentScene->onKey(key, scancode, action, mods);
+}
+
 MainGame::MainGame() {}
 
 void MainGame::init(GLFWwindow* window) {
@@ -30,6 +38,9 @@ void MainGame::init(GLFWwindow* window) {
 #else
   changeScene(GlobalContext::startMenu.get());
 #endif
+
+  glfwSetMouseButtonCallback(window, MainGame::onMouseCallback);
+  glfwSetKeyCallback(window, MainGame::onKeyCallback);
 }
 
 void MainGame::update(float delta) {
@@ -37,17 +48,17 @@ void MainGame::update(float delta) {
 
   while (timeSinceTick > GlobalContext::TICK_DELTA) {
     timeSinceTick -= GlobalContext::TICK_DELTA;
-    currentScene->update();
+    GlobalContext::currentScene->update();
   }
 
   float completion = timeSinceTick / GlobalContext::TICK_DELTA;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  currentScene->draw(completion);
+  GlobalContext::currentScene->draw(completion);
 }
 
 
 void MainGame::changeScene(Scene* newScene) {
-  currentScene = newScene;
-  currentScene->enter();
+  GlobalContext::currentScene = newScene;
+  GlobalContext::currentScene->enter();
 }

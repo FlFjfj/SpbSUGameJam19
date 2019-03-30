@@ -11,7 +11,7 @@ struct GlobalContext {
   static void reset();
 
   static GLFWwindow* window;
-  static void* currentContext;
+  static Scene* currentScene;
   static std::unique_ptr<Scene> testScene;
 
   static std::unique_ptr<Scene> startMenu;
