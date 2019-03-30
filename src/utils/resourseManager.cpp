@@ -1,3 +1,4 @@
+#include <memory>
 #include "resourseManager.h"
 
 std::unique_ptr<fjfj::Mesh> ResourseManager::squareMesh;
