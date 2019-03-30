@@ -12,6 +12,6 @@ public:
 
   static std::unique_ptr <fjfj::Shader> simpleShader;
 
-  static std::unique_ptr <fjfj::Texture> wallTexture;
-  static std::unique_ptr <fjfj::Texture> floorTexture;
+  static std::unique_ptr <fjfj::Texture> menuTexture;
+  static std::unique_ptr <fjfj::Texture> startButtonTexture;
 };
