@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <game/scenes/menu/StartMenu.h>
+#include <game/scenes/menu/Episodes.h>
 #include <game/scenes/test/TestScene.h>
 
 void MainGame::onMouseCallback(GLFWwindow *, int button, int action, int mods) {
@@ -31,6 +32,7 @@ void MainGame::init(GLFWwindow* window) {
 
   GlobalContext::window = window;
   GlobalContext::startMenu = createStartMenu();
+  GlobalContext::episodesScreen = createEpisodesScene();
   GlobalContext::testScene = createTestScene();
   GlobalContext::reset();
 #ifdef TEST_SCENE

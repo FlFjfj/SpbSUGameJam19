@@ -8,9 +8,9 @@
 
 #include <game/Scene.h>
 
-class StartMenu : public Scene {
+class EpisodesScene : public Scene {
 public: 
-  StartMenu();
+  EpisodesScene();
 
   void init() override;
   void enter() override;
@@ -33,12 +33,6 @@ private:
   float elapsedTime = 0;
   const float noiseSpeed = 0.05f;
   const int noiseFrames = 6;
-
-  enum StartState {
-    WAIT, ANIMATE, FINAL
-  } state = WAIT;
-
-  float progress = 0;
 };
 
-std::unique_ptr<Scene> createStartMenu();
+std::unique_ptr<Scene> createEpisodesScene();

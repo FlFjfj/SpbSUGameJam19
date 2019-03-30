@@ -17,5 +17,7 @@ public:
 
   static std::unique_ptr <fjfj::Texture> menuTexture;
   static std::unique_ptr <fjfj::Texture> startButtonTexture;
+  static std::unique_ptr <fjfj::Texture> episodesTexture;
+
 
 };

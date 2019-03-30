@@ -10,6 +10,7 @@ std::unique_ptr <fjfj::Texture> ResourseManager::noiseTexture;
 
 std::unique_ptr <fjfj::Texture> ResourseManager::menuTexture;
 std::unique_ptr <fjfj::Texture> ResourseManager::startButtonTexture;
+std::unique_ptr <fjfj::Texture> ResourseManager::episodesTexture;
 
 void ResourseManager::initResourses() {
   simpleShader = std::make_unique<fjfj::Shader>("assets/shader/simple.vert", "assets/shader/simple.frag");
@@ -20,5 +21,6 @@ void ResourseManager::initResourses() {
 
   menuTexture = std::make_unique<fjfj::Texture>("assets/texture/menuScene.png");
   startButtonTexture = std::make_unique<fjfj::Texture>("assets/texture/startButton.png");
+  episodesTexture = std::make_unique<fjfj::Texture>("assets/texture/episodesScreen.png");
 
 }
