@@ -13,7 +13,7 @@ public:
   static std::unique_ptr <fjfj::Shader> simpleShader;
   static std::unique_ptr <fjfj::Shader> animatedShader;
 
-  static std::unique_ptr <fjfj::Texture> noizeTexture;
+  static std::unique_ptr <fjfj::Texture> noiseTexture;
 
   static std::unique_ptr <fjfj::Texture> menuTexture;
   static std::unique_ptr <fjfj::Texture> startButtonTexture;

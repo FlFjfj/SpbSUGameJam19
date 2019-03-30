@@ -21,13 +21,18 @@ private:
   fjfj::OrthographicCamera camera;
   fjfj::SpriteBatch batch;
 
-  GLint simple_model_location;
-  GLint simple_proj_location;
+  GLint simple_model_location = -2;
+  GLint simple_proj_location = -2;
 
-  GLint animated_model_location;
-  GLint animated_proj_location;
-  GLint animated_frameData_location;
+  GLint animated_model_location = -2;
+  GLint animated_proj_location = -2;
+  GLint animated_time_location = -2;
+  GLint animated_frameTime_location = -2;
+  GLint animated_frameCount_location = -2;
 
+  float elapsedTime = 0;
+  const float noiseSpeed = 0.05f;
+  const int noiseFrames = 6;
 };
 
 std::unique_ptr<Scene> createStartMenu();
