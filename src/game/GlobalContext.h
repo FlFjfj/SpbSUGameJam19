@@ -2,10 +2,17 @@
 
 #include <vector>
 #include <memory>
+
+#include <GLFW/glfw3.h>
+
 #include "Scene.h"
 
 struct GlobalContext {
   static void reset();
+
+  static GLFWwindow* window;
+  static void* currentContext;
+  static std::unique_ptr<Scene> testScene;
 
   static std::unique_ptr<Scene> startMenu;
   static std::unique_ptr<Scene> episodesScreen;

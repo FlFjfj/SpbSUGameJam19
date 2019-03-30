@@ -23,5 +23,11 @@ file (GLOB_RECURSE MENU_SCENES
   src/game/scenes/menu/*.h
 )
 
-add_executable(game ${CORE_SOURCE} ${MENU_SCENES})
+file (GLOB_RECURSE TEST_FILES
+  src/game/scenes/test/*.cpp
+  src/game/scenes/test/*.h
+)
+
+
+add_executable(game ${CORE_SOURCE} ${MENU_SCENES} ${TEST_FILES})
 target_link_libraries(game GlUtils)

@@ -1,6 +1,10 @@
 #include "GlobalContext.h"
 
+GLFWwindow* GlobalContext::window = nullptr;
+void* GlobalContext::currentContext = nullptr;
+
 std::unique_ptr<Scene> GlobalContext::startMenu = {};
+std::unique_ptr<Scene> GlobalContext::testScene = {};
 std::unique_ptr<Scene> GlobalContext::episodesScreen = {};
 std::vector<std::unique_ptr<Scene>> GlobalContext::eposides = {};
 

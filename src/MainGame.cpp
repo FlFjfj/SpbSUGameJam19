@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <game/scenes/menu/StartMenu.h>
+#include <game/scenes/test/TestScene.h>
 
 MainGame::MainGame() {}
 
@@ -20,12 +21,15 @@ void MainGame::init(GLFWwindow* window) {
   auto error = glGetError();
   std::cout << "resource init error: " << error << std::endl;
 
+  GlobalContext::window = window;
   GlobalContext::startMenu = createStartMenu();
+  GlobalContext::testScene = createTestScene();
   GlobalContext::reset();
-
-
-
+#ifdef TEST_SCENE
+  changeScene(GlobalContext::testScene.get());
+#else
   changeScene(GlobalContext::startMenu.get());
+#endif
 }
 
 void MainGame::update(float delta) {
