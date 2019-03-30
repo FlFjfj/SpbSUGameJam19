@@ -12,6 +12,16 @@ include_directories(src)
 include_directories(GlUtils/ecs)
 include_directories(GlUtils/reactphysics3d)
 
-file(GLOB CORE_SOURCE src/*.cpp src/*.h src/utils/*.cpp src/utils/*.h)
-add_executable(game ${CORE_SOURCE})
+file(GLOB CORE_SOURCE
+  src/*.cpp src/*.h
+  src/utils/*.cpp src/utils/*.h
+  src/game/*.cpp src/game/*.h
+)
+
+file (GLOB_RECURSE MENU_SCENES
+  src/game/scenes/menu/*.cpp
+  src/game/scenes/menu/*.h
+)
+
+add_executable(game ${CORE_SOURCE} ${MENU_SCENES})
 target_link_libraries(game GlUtils)
