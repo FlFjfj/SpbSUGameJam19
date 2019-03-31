@@ -65,7 +65,9 @@ void Episode2::draw(float complete) {
   batch.draw(*ResourseManager::ep2dialogBack.get(), simple_model_location,
     glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
 
-  batch.draw(*ResourseManager::ep2ChooseFriend.get(), simple_model_location,
+  batch.draw(*ResourseManager::gopnikTexture.get(), simple_model_location,
+    glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
+  batch.draw(*ResourseManager::kachokTexture.get(), simple_model_location,
     glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
 
   batch.draw(*ResourseManager::dialogeInterface.get(), simple_model_location,

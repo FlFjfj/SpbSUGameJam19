@@ -19,18 +19,16 @@ public:
   static std::unique_ptr <fjfj::Texture> noiseTexture;
   static std::unique_ptr <fjfj::Texture> dialogeInterface;
   static std::unique_ptr <fjfj::Texture> dialogeChoose;
+  static std::unique_ptr <fjfj::Texture> bubbleTexture;
 
+  static std::unique_ptr <fjfj::Texture> kachokTexture;
+  static std::unique_ptr <fjfj::Texture> gopnikTexture;
 
   static std::unique_ptr <fjfj::Texture> menuTexture;
   static std::unique_ptr <fjfj::Texture> startButtonTexture;
   static std::unique_ptr <fjfj::Texture> episodesTexture;
 
-  static std::unique_ptr <fjfj::Texture> ep2ChooseFriend;
-  static std::unique_ptr <fjfj::Texture> ep2dialogBack;
-  static std::unique_ptr <fjfj::Texture> bubbleTexture;
-
   static std::unique_ptr <fjfj::Texture> episode1BackgroundTexture;
-  static std::unique_ptr <fjfj::Texture> gopnikTexture;
   static std::unique_ptr <fjfj::Texture> gopnikBackgroundTexture;
   static std::unique_ptr <fjfj::Texture> gopnikSadTexture;
   static std::unique_ptr <fjfj::Texture> nightBackgroundTexture;
@@ -38,4 +36,6 @@ public:
   static std::unique_ptr <fjfj::Texture> trash2Texture;
   static std::unique_ptr <fjfj::Texture> trash3Texture;
   static std::unique_ptr <fjfj::Texture> trash4Texture;
+
+  static std::unique_ptr <fjfj::Texture> ep2dialogBack;
 };
