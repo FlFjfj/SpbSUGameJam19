@@ -38,4 +38,14 @@ public:
   static std::unique_ptr <fjfj::Texture> trash4Texture;
 
   static std::unique_ptr <fjfj::Texture> ep2dialogBack;
+  static std::unique_ptr <fjfj::Texture> ep2gameplayBack;
+
+  static std::unique_ptr <fjfj::Texture> bad1;
+  static std::unique_ptr <fjfj::Texture> bad2;
+  static std::unique_ptr <fjfj::Texture> bad3;
+
+  static std::unique_ptr <fjfj::Texture> good1;
+  static std::unique_ptr <fjfj::Texture> good2;
+  static std::unique_ptr <fjfj::Texture> good3;
+
 };

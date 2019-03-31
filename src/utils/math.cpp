@@ -3,3 +3,12 @@
 float fjfj::lerp(float start, float end, float percent) {
   return (start + percent * (end - start));
 }
+
+float fjfj::clamp(float val, float minimum, float maximum) {
+  if (val < minimum)
+    return minimum;
+  if (val > maximum)
+    return maximum;
+
+  return val;
+}

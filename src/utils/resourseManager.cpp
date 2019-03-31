@@ -30,6 +30,15 @@ std::unique_ptr <fjfj::Texture> ResourseManager::trash3Texture;
 std::unique_ptr <fjfj::Texture> ResourseManager::trash4Texture;
 
 std::unique_ptr <fjfj::Texture> ResourseManager::ep2dialogBack;
+std::unique_ptr <fjfj::Texture> ResourseManager::ep2gameplayBack;
+
+std::unique_ptr <fjfj::Texture> ResourseManager::bad1;
+std::unique_ptr <fjfj::Texture> ResourseManager::bad2;
+std::unique_ptr <fjfj::Texture> ResourseManager::bad3;
+
+std::unique_ptr <fjfj::Texture> ResourseManager::good1;
+std::unique_ptr <fjfj::Texture> ResourseManager::good2;
+std::unique_ptr <fjfj::Texture> ResourseManager::good3;
 
 void ResourseManager::initResourses() {
   simpleShader = std::make_unique<fjfj::Shader>("assets/shader/simple.vert", "assets/shader/simple.frag");
@@ -59,5 +68,14 @@ void ResourseManager::initResourses() {
   trash3Texture = std::make_unique<fjfj::Texture>("assets/texture/episode1/trash3.png");
   trash4Texture = std::make_unique<fjfj::Texture>("assets/texture/episode1/trash4.png");
 
-  ep2dialogBack = std::make_unique<fjfj::Texture>("assets/texture/episode2/dialogBackground.png");
+  ep2dialogBack   = std::make_unique<fjfj::Texture>("assets/texture/episode2/dialogBackground.png");
+  ep2gameplayBack = std::make_unique<fjfj::Texture>("assets/texture/episode2/bricks.png");
+
+  bad1 = std::make_unique<fjfj::Texture>("assets/texture/episode2/bad1.png");
+  bad2 = std::make_unique<fjfj::Texture>("assets/texture/episode2/bad2.png");
+  bad3 = std::make_unique<fjfj::Texture>("assets/texture/episode2/bad3.png");
+
+  good1 = std::make_unique<fjfj::Texture>("assets/texture/episode2/good1.png");
+  good2 = std::make_unique<fjfj::Texture>("assets/texture/episode2/good2.png");
+  good3 = std::make_unique<fjfj::Texture>("assets/texture/episode2/good3.png");
 }

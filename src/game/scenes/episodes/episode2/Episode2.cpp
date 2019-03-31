@@ -1,10 +1,12 @@
-#include "Episode2.h"
+﻿#include "Episode2.h"
 
 #include <utils/math.h>
 #include <game/GlobalContext.h>
 #include <utils/resourseManager.h>
 
-Episode2::Episode2() : camera((float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT) {
+#include "Ep2Gameplay.h"
+
+Episode2::Episode2() : camera((float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT), font(L"абвгдеёжзийклмнопрстуфхцчшщъыьэюя?().,", ResourseManager::fontTexture.get()) {
   init();
 }
 
@@ -24,7 +26,7 @@ void  Episode2::update() {
   case WAIT:
   {
     auto state = glfwGetKey(GlobalContext::window, GLFW_KEY_DOWN);
-    if (state == GLFW_PRESS && choosenVariant != 3) {
+    if (state == GLFW_PRESS && choosenVariant != 2) {
       progress = 0;
       moveDown = true;
       choosenVariant++;
@@ -38,6 +40,12 @@ void  Episode2::update() {
       moveDown = false;
       choosenVariant--;
       this->state = MOVE;
+      break;
+    }
+
+    state = glfwGetKey(GlobalContext::window, GLFW_KEY_ENTER);
+    if (state == GLFW_PRESS) {
+      GlobalContext::changeScene(new Episode2Gameplay(choosenVariant));
       break;
     }
 
@@ -81,6 +89,10 @@ void Episode2::draw(float complete) {
     batch.draw(*ResourseManager::dialogeChoose.get(), simple_model_location,
       glm::vec2{ 0, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * (3 - choosenVariant) }, GlobalContext::SCREEN_WIDTH, 35);
   }
+
+  font.draw(&batch, &camera, L"просить помочь друга слева",      -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 3, 20, 30);
+  font.draw(&batch, &camera, L"просить помочь друга справа",     -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 2, 20, 30);
+  font.draw(&batch, &camera, L"шо тот... шо этот... пойду один", -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 1, 20, 30);
 }
 
 std::unique_ptr<Scene> createEpisode2() {

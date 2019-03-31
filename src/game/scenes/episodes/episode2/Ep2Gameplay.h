@@ -4,15 +4,18 @@
 #include <memory>
 #include <game/GlobalContext.h>
 #include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
 
 #include <OrthographicCamera.h>
 #include <SpriteBatch.h>
 #include <BitmapFont.h>
 
 
-class Episode2 : public Scene {
+class Episode2Gameplay : public Scene {
 public:
-  Episode2();
+  Episode2Gameplay(int choosen);
 
   void init() override;
   void enter() override;
@@ -29,6 +32,13 @@ private:
 
   float timeElapsed = 0;
 
+  int friendId;
+  std::vector<int> graffity = { 0, 1, 2, 3, 4, 5 };
+  std::map<int, fjfj::Texture*> indexToTexture;
+
+  float moveProgress = 0;
+  int moveDir = 0;
+
   float progress = 0;
   int choosenVariant = 0;
   bool moveDown = true;
@@ -37,5 +47,3 @@ private:
     WAIT, MOVE
   } state = WAIT;;
 };
-
-std::unique_ptr<Scene> createEpisode2();
