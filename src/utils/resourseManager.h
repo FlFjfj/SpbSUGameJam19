@@ -14,6 +14,9 @@ public:
   static std::unique_ptr <fjfj::Shader> animatedShader;
 
   static std::unique_ptr <fjfj::Texture> noiseTexture;
+  static std::unique_ptr <fjfj::Texture> dialogeInterface;
+  static std::unique_ptr <fjfj::Texture> dialogeChoose;
+
 
   static std::unique_ptr <fjfj::Texture> menuTexture;
   static std::unique_ptr <fjfj::Texture> startButtonTexture;
@@ -21,6 +24,7 @@ public:
 
   static std::unique_ptr <fjfj::Texture> ep2ChooseFriend;
   static std::unique_ptr <fjfj::Texture> ep2dialogBack;
+
   //static std::unique_ptr <fjfj::Texture> ;
 
 

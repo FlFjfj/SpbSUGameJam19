@@ -23,8 +23,15 @@ private:
   GLint simple_model_location = -2;
   GLint simple_proj_location = -2;
 
-  float timeElapsed;
+  float timeElapsed = 0;
 
+  float progress = 0;
+  int choosenVariant = 0;
+  bool moveDown = true;
+
+  enum DialogeState {
+    WAIT, MOVE
+  } state = WAIT;;
 };
 
 std::unique_ptr<Scene> createEpisode2();
