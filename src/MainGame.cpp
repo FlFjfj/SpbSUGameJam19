@@ -9,6 +9,8 @@
 #include <game/scenes/test/TestScene.h>
 
 #include <game/scenes/episodes/Episode1.h>
+#include <game/scenes/episodes/episode2/Episode2.h>
+
 void MainGame::onMouseCallback(GLFWwindow *, int button, int action, int mods) {
   GlobalContext::currentScene->onMouseButton(button, action, mods);
 }
@@ -36,12 +38,12 @@ void MainGame::init(GLFWwindow* window) {
   GlobalContext::episodesScreen = createEpisodesScene();
   GlobalContext::testScene = createTestScene();
   GlobalContext::eposides.emplace_back(createEpisode1());
+  GlobalContext::eposides.emplace_back(createEpisode2());
+
   GlobalContext::reset();
-#ifdef TEST_SCENE
-  GlobalContext::changeScene(GlobalContext::testScene.get());
-#else
-  GlobalContext::changeScene(GlobalContext::startMenu.get());
-#endif
+  //GlobalContext::changeScene(GlobalContext::startMenu.get());
+  GlobalContext::changeScene(GlobalContext::eposides[1].get());
+
 
   glfwSetMouseButtonCallback(window, MainGame::onMouseCallback);
   glfwSetKeyCallback(window, MainGame::onKeyCallback);

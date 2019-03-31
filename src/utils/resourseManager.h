@@ -19,5 +19,9 @@ public:
   static std::unique_ptr <fjfj::Texture> startButtonTexture;
   static std::unique_ptr <fjfj::Texture> episodesTexture;
 
+  static std::unique_ptr <fjfj::Texture> ep2ChooseFriend;
+  static std::unique_ptr <fjfj::Texture> ep2dialogBack;
+  //static std::unique_ptr <fjfj::Texture> ;
+
 
 };

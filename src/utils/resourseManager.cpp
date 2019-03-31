@@ -12,6 +12,9 @@ std::unique_ptr <fjfj::Texture> ResourseManager::menuTexture;
 std::unique_ptr <fjfj::Texture> ResourseManager::startButtonTexture;
 std::unique_ptr <fjfj::Texture> ResourseManager::episodesTexture;
 
+std::unique_ptr <fjfj::Texture> ResourseManager::ep2ChooseFriend;
+std::unique_ptr <fjfj::Texture> ResourseManager::ep2dialogBack;
+
 void ResourseManager::initResourses() {
   simpleShader = std::make_unique<fjfj::Shader>("assets/shader/simple.vert", "assets/shader/simple.frag");
   animatedShader = std::make_unique<fjfj::Shader>("assets/shader/animated.vert", "assets/shader/animated.frag");
@@ -23,4 +26,6 @@ void ResourseManager::initResourses() {
   startButtonTexture = std::make_unique<fjfj::Texture>("assets/texture/startButton.png");
   episodesTexture = std::make_unique<fjfj::Texture>("assets/texture/episodesScreen.png");
 
+  ep2ChooseFriend = std::make_unique<fjfj::Texture>("assets/texture/episode2/chooseFriend.png");
+  ep2dialogBack   = std::make_unique<fjfj::Texture>("assets/texture/episode2/dialogBackground.png");
 }
