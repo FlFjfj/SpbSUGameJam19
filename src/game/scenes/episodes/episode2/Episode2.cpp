@@ -19,7 +19,7 @@ void Episode2::enter() {
   timeElapsed = 0;
 }
 
-void  Episode2::update() {
+void Episode2::update() {
   timeElapsed += GlobalContext::TICK_DELTA / GlobalContext::TICKS_PER_SECOND;
 
   switch (state) {

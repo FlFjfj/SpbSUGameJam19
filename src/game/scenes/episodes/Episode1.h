@@ -3,11 +3,11 @@
 #include <GL/glew.h>
 
 #include <memory>
+#include <vector>
 
 #include <OrthographicCamera.h>
 #include <SpriteBatch.h>
 #include <BitmapFont.h>
-
 #include <game/Scene.h>
 /*
  Player can
@@ -49,20 +49,24 @@ private:
 
   void drawSelector();
 
-  void drawGopnik(float alpha=1);
+  void drawGopnik(float alpha = 1);
 
   void drawSadGopnik();
 
-  void drawBackround(float alpha=1);
+  void drawDefaultBackround(float alpha = 1);
 
-  void drawBubble(float alpha=1);
+  void drawQuestBackround(float alpha = 1);
+
+  void drawBubble(float alpha = 1);
 
   void drawQuestionText();
 
   void drawDialogInterface();
 
   void drawDialogText();
- 
+
+  void drawTrash();
+
   float timeFromStart;
   int numPieces;
   bool barCollected;
@@ -71,6 +75,9 @@ private:
   float selectorMoveStart;
   int selectorState;
   int oldSelectPos;
+  glm::vec2 center0;
+  glm::vec2 center1;
+  std::vector<glm::vec2> trashPositions;
 
   fjfj::OrthographicCamera camera;
   fjfj::SpriteBatch batch;
@@ -88,6 +95,7 @@ private:
   static const float BUBBLE_LENGTH;
   static const float SELECTOR_ANIMATION_LENGTH;
   static const float REFUSE_TO_HELP_LENGTH;
+  static const glm::vec2 SPEED;
 };
 
 std::unique_ptr<Scene> createEpisode1();

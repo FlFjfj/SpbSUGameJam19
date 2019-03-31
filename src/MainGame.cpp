@@ -41,8 +41,8 @@ void MainGame::init(GLFWwindow* window) {
   GlobalContext::eposides.emplace_back(createEpisode2());
 
   GlobalContext::reset();
-  GlobalContext::changeScene(GlobalContext::startMenu.get());
-  //GlobalContext::changeScene(GlobalContext::eposides[0].get());
+  //GlobalContext::changeScene(GlobalContext::startMenu.get());
+  GlobalContext::changeScene(GlobalContext::eposides[0].get());
 
 
   glfwSetMouseButtonCallback(window, MainGame::onMouseCallback);

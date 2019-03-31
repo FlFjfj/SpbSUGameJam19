@@ -8,15 +8,17 @@
 #include <utils/resourseManager.h>
 #include <iostream>
 #include <utils/math.h>
+#include <random>
 
 const int Episode1::N_BUTTONS = 3;
-const float Episode1::INTRO_STAGE_LENGTH = 5;
+const float Episode1::INTRO_STAGE_LENGTH = 2;
 const float Episode1::GOPNIK_START_TIME = 0;
-const float Episode1::GOPNIK_LENGTH = 3;
-const float Episode1::BUBBLE_START_TIME = 2;
-const float Episode1::BUBBLE_LENGTH = 1;
+const float Episode1::GOPNIK_LENGTH = 2;
+const float Episode1::BUBBLE_START_TIME = 0;
+const float Episode1::BUBBLE_LENGTH = 2;
 const float Episode1::SELECTOR_ANIMATION_LENGTH = 0.2;
 const float Episode1::REFUSE_TO_HELP_LENGTH = 1;
+const glm::vec2 Episode1::SPEED = {400, 0};
 
 enum asd {
   WAIT,
@@ -40,6 +42,20 @@ void Episode1::enter() {
   selectorPos = 0;
   selectorState = WAIT;
   stage = Stages::Intro;
+  center0 = {0, 0};
+  center1 = {0, 0};
+
+
+  std::random_device rd;  //Will be used to obtain a seed for the random number engine
+  std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+  std::uniform_int_distribution<> disx(-GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_WIDTH);
+  std::uniform_int_distribution<> disy(-GlobalContext::SCREEN_HEIGHT / 2, -GlobalContext::SCREEN_HEIGHT / 2 + 200);
+
+  for (int i = 0; i < 11; ++i) {
+    float x = disx(gen);
+    float y = disy(gen);
+    trashPositions.emplace_back(x, y);
+  }
 }
 
 void Episode1::update() {
@@ -64,14 +80,26 @@ void Episode1::update() {
   case Stages::HelpToCollect: {
     if (numPieces >= 10) {
       GlobalContext::cash += (numPieces - 1) * 2 + barCollected ? 100 : 0;
-      stage = Stages::Ending;
+    }
+
+    center0 = center1;
+
+    if (glfwGetKey(GlobalContext::window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+      center1 = center0 - GlobalContext::TICK_DELTA * SPEED;
+    }
+
+    if (glfwGetKey(GlobalContext::window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+      center1 = center0 + GlobalContext::TICK_DELTA * SPEED;
+    }
+    
+    if (fabs(center1[0]) > 1280) {
+      center1[0] = 1280 * fjfj::sign(center1[0]);
     }
 
     break;
   }
 
   case Stages::RefuseToHelp: {
-    //some visual content
     if (timeFromStart > REFUSE_TO_HELP_LENGTH) {
       changeStage(Stages::Ending);
     }
@@ -110,14 +138,17 @@ void Episode1::update() {
 }
 
 void Episode1::draw(float complete) {
+  auto center = center0 + complete * (center1 - center0);
+  camera.position = -center;
   camera.update();
+  
   switch (stage) {
   case Stages::Intro: {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     auto gopnikProgress = (timeFromStart - GOPNIK_START_TIME) / GOPNIK_LENGTH;
     auto bubbleProgress = (timeFromStart - BUBBLE_START_TIME) / BUBBLE_LENGTH;
-    drawBackround();
+    drawDefaultBackround();
     drawGopnik(gopnikProgress);
     drawDialogInterface();
     drawBubble(bubbleProgress);
@@ -131,7 +162,7 @@ void Episode1::draw(float complete) {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     glUniform1f(alpha_aplha_location, 1);
-    drawBackround();
+    drawDefaultBackround();
     drawGopnik();
     drawBubble();
     drawDialogInterface();
@@ -143,10 +174,17 @@ void Episode1::draw(float complete) {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     glUniform1f(alpha_aplha_location, 1);
-    drawBackround();
+    drawDefaultBackround();
     drawSadGopnik();
     drawDialogInterface();
     break;
+  }
+  case Stages::HelpToCollect: {
+    ResourseManager::alphaShader->Use();
+    glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
+    glUniform1f(alpha_aplha_location, 1);
+    drawQuestBackround(complete);
+    drawTrash();
   }
   }
 }
@@ -246,9 +284,16 @@ void Episode1::drawSadGopnik() {
   batch.draw(*ResourseManager::gopnikSadTexture.get(), alpha_model_location, glm::vec2{0, 0}, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
 }
 
-void Episode1::drawBackround(float alpha) {
+void Episode1::drawDefaultBackround(float alpha) {
   glUniform1f(alpha_aplha_location, alpha);
   batch.draw(*ResourseManager::gopnikBackgroundTexture.get(), alpha_model_location, glm::vec2{0, 0}, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
+}
+
+void Episode1::drawQuestBackround(float complete) {
+  auto center = center0 + complete * (center1 - center0);
+  batch.draw(*ResourseManager::nightBackgroundTexture.get(), alpha_model_location, -center *2.0f / 3.0f, GlobalContext::SCREEN_WIDTH * 2, GlobalContext::SCREEN_HEIGHT);
+
+  batch.draw(*ResourseManager::episode1BackgroundTexture.get(), alpha_model_location, {0, 0}, GlobalContext::SCREEN_WIDTH * 3, GlobalContext::SCREEN_HEIGHT);
 }
 
 void Episode1::drawBubble(float alpha) {
@@ -281,5 +326,20 @@ void Episode1::drawDialogText() {
   font.draw(&batch, &camera, L"не помогать", x + 0, y1 + 0, 20, 30);
   font.draw(&batch, &camera, L"помогать", x + 0, y2 + 0, 20, 30);
   font.draw(&batch, &camera, L"сдать копам", x + 0, y3 + 0, 20, 30);
+}
+
+void Episode1::drawTrash() {
+  
+  for (int i = 0; i < trashPositions.size(); i++) {
+    fjfj::Texture* tex;
+    switch (i % 4) {
+    case 0: tex = ResourseManager::trash1Texture.get(); break;
+    case 1: tex = ResourseManager::trash2Texture.get(); break;
+    case 2: tex = ResourseManager::trash3Texture.get(); break;
+    case 3: tex = ResourseManager::trash4Texture.get(); break;
+    }
+
+    batch.draw(*tex, alpha_model_location, trashPositions[i], 80, 80);
+  }
 }
 
