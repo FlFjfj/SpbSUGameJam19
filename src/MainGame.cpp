@@ -47,6 +47,26 @@ void MainGame::init(GLFWwindow* window) {
 
   glfwSetMouseButtonCallback(window, MainGame::onMouseCallback);
   glfwSetKeyCallback(window, MainGame::onKeyCallback);
+
+  batch = new fjfj::SpriteBatch();
+  camera = new fjfj::OrthographicCamera(GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
+  camera->update();
+  glGenFramebuffers(1, &fbo);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+  glGenTextures(1, &fbtex.texture);
+  glBindTexture(GL_TEXTURE_2D, fbtex.texture);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbtex.texture, 0);
+
+  post_model_location = glGetUniformLocation(ResourseManager::postShader.get()->Program, "u_ModelTrans");
+  post_proj_location = glGetUniformLocation(ResourseManager::postShader.get()->Program, "u_ProjTrans");
 }
 
 void MainGame::update(float delta) {
@@ -59,8 +79,15 @@ void MainGame::update(float delta) {
 
   float completion = timeSinceTick / GlobalContext::TICK_DELTA;
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+  glClear(GL_COLOR_BUFFER_BIT);
   GlobalContext::currentScene->draw(completion);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  ResourseManager::postShader->Use();
+  glUniformMatrix4fv(post_proj_location, 1, GL_FALSE, glm::value_ptr(camera->proj));
+  batch->draw(fbtex, post_model_location, { 0, 0 }, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
 }
 
 

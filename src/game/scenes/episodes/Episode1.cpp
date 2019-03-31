@@ -1,5 +1,4 @@
-﻿//
-// Created by hedonistant on 30.03.19.
+﻿// Created by hedonistant on 30.03.19.
 //
 
 #include "Episode1.h"
@@ -18,7 +17,9 @@ const float Episode1::BUBBLE_START_TIME = 0;
 const float Episode1::BUBBLE_LENGTH = 2;
 const float Episode1::SELECTOR_ANIMATION_LENGTH = 0.2;
 const float Episode1::REFUSE_TO_HELP_LENGTH = 1;
-const glm::vec2 Episode1::SPEED = {400, 0};
+const float Episode1::COLLECT_BAR_ANIMATION_LENGTH = 5;
+const float Episode1::HAND_TO_COPS_ANIMATION_LENGTH = 4;
+const glm::vec2 Episode1::SPEED = { 400, 0 };
 
 enum asd {
   WAIT,
@@ -42,13 +43,13 @@ void Episode1::enter() {
   selectorPos = 0;
   selectorState = WAIT;
   stage = Stages::Intro;
-  center0 = {0, 0};
-  center1 = {0, 0};
+  center0 = { 0, 0 };
+  center1 = { 0, 0 };
 
 
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-  std::uniform_int_distribution<> disx(-GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_WIDTH);
+  std::uniform_int_distribution<> disx(-GlobalContext::SCREEN_WIDTH * 1.4f, GlobalContext::SCREEN_WIDTH * 1.4);
   std::uniform_int_distribution<> disy(-GlobalContext::SCREEN_HEIGHT / 2, -GlobalContext::SCREEN_HEIGHT / 2 + 200);
 
   for (int i = 0; i < 11; ++i) {
@@ -61,7 +62,8 @@ void Episode1::enter() {
 void Episode1::update() {
   timeFromStart += GlobalContext::TICK_DELTA;
   switch (stage) {
-  case Stages::Intro: {
+  case Stages::Intro:
+  {
     if (timeFromStart > INTRO_STAGE_LENGTH) {
       changeStage(Stages::SelectCase);
     }
@@ -69,7 +71,8 @@ void Episode1::update() {
     break;
   }
 
-  case Stages::SelectCase: {
+  case Stages::SelectCase:
+  {
     if (selectorState == MOVE && timeFromStart - selectorMoveStart > SELECTOR_ANIMATION_LENGTH) {
       selectorState = WAIT;
     }
@@ -77,9 +80,11 @@ void Episode1::update() {
     break;
   }
 
-  case Stages::HelpToCollect: {
+  case Stages::HelpToCollect:
+  {
     if (numPieces >= 10) {
       GlobalContext::cash += (numPieces - 1) * 2 + barCollected ? 100 : 0;
+      changeStage(Stages::Ending);
     }
 
     center0 = center1;
@@ -91,7 +96,7 @@ void Episode1::update() {
     if (glfwGetKey(GlobalContext::window, GLFW_KEY_LEFT) == GLFW_PRESS) {
       center1 = center0 + GlobalContext::TICK_DELTA * SPEED;
     }
-    
+
     if (fabs(center1[0]) > 1280) {
       center1[0] = 1280 * fjfj::sign(center1[0]);
     }
@@ -99,7 +104,8 @@ void Episode1::update() {
     break;
   }
 
-  case Stages::RefuseToHelp: {
+  case Stages::RefuseToHelp:
+  {
     if (timeFromStart > REFUSE_TO_HELP_LENGTH) {
       changeStage(Stages::Ending);
     }
@@ -107,17 +113,19 @@ void Episode1::update() {
     break;
   }
 
-  case Stages::HandToCops: {
-    //some visual content
-
-    GlobalContext::broAvialable[0] = 0;
-    stage = Stages::Ending;
+  case Stages::HandToCops:
+  {
+    if (timeFromStart > HAND_TO_COPS_ANIMATION_LENGTH) {
+      GlobalContext::broAvialable[0] = 0;
+      changeStage(Stages::Ending);
+    }
 
     break;
   }
 
-  case Stages::CollectBar: {
-    if (timeFromStart > 5) {
+  case Stages::CollectBar:
+  {
+    if (timeFromStart > COLLECT_BAR_ANIMATION_LENGTH) {
       GlobalContext::broAvialable[1] = 0;
       stage = Stages::HelpToCollect;
     }
@@ -125,7 +133,8 @@ void Episode1::update() {
     break;
   }
 
-  case Stages::Ending: {
+  case Stages::Ending:
+  {
     if (numPieces >= 10) {
       GlobalContext::cash += (numPieces - 1) * 2 + barCollected ? 100 : 0;
     }
@@ -141,9 +150,10 @@ void Episode1::draw(float complete) {
   auto center = center0 + complete * (center1 - center0);
   camera.position = -center;
   camera.update();
-  
+
   switch (stage) {
-  case Stages::Intro: {
+  case Stages::Intro:
+  {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     auto gopnikProgress = (timeFromStart - GOPNIK_START_TIME) / GOPNIK_LENGTH;
@@ -158,7 +168,8 @@ void Episode1::draw(float complete) {
 
     break;
   }
-  case Stages::SelectCase: {
+  case Stages::SelectCase:
+  {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     glUniform1f(alpha_aplha_location, 1);
@@ -170,7 +181,8 @@ void Episode1::draw(float complete) {
     drawDialogText();
     break;
   }
-  case Stages::RefuseToHelp: {
+  case Stages::RefuseToHelp:
+  {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     glUniform1f(alpha_aplha_location, 1);
@@ -179,27 +191,65 @@ void Episode1::draw(float complete) {
     drawDialogInterface();
     break;
   }
-  case Stages::HelpToCollect: {
+  case Stages::HelpToCollect:
+  {
+    ResourseManager::alphaShader->Use();
+    glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
+    drawQuestBackround(complete, 1);
+    glUniform1f(alpha_aplha_location, 1);
+    drawTrash();
+  }
+  case Stages::CollectBar:
+  {
     ResourseManager::alphaShader->Use();
     glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
     glUniform1f(alpha_aplha_location, 1);
-    drawQuestBackround(complete);
+    drawQuestBackround(complete, timeFromStart / COLLECT_BAR_ANIMATION_LENGTH);
+    glUniform1f(alpha_aplha_location, 1);
     drawTrash();
+    break;
+  }
+  case Stages::HandToCops:
+  {
+    ResourseManager::alphaShader->Use();
+    glUniformMatrix4fv(alpha_proj_location, 1, GL_FALSE, glm::value_ptr(camera.proj));
+    glUniform1f(alpha_aplha_location, 1);
+    drawArrest();
+    break;
   }
   }
 }
 
 void Episode1::onMouseButton(int button, int action, int mods) {
-  if (stage == Stages::HelpToCollect) {
+  if (stage == Stages::HelpToCollect && button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE) {
+    double x, y;
+    glfwGetCursorPos(GlobalContext::window, &x, &y);
+    x -= center1.x + GlobalContext::SCREEN_WIDTH / 2;
+    y = 360 - y;
 
+
+    for (int i = 0; i < trashPositions.size(); i++) {
+      auto& pos = trashPositions[i];
+      if (glm::length(pos - glm::vec2{ x, y }) < 50) {
+        pos = { -9001, -9001 };
+        ++numPieces;
+      }
+    }
+
+    if (glm::length(glm::vec2{ 1850 - x, -200 - y }) < 100) {
+      barCollected = true;
+      changeStage(Stages::CollectBar);
+    }
   }
 }
 
 void Episode1::onKey(int key, int scancode, int action, int mods) {
   switch (stage) {
-  case Stages::SelectCase: {
+  case Stages::SelectCase:
+  {
     switch (key) {
-    case GLFW_KEY_UP: {
+    case GLFW_KEY_UP:
+    {
       if (action == GLFW_PRESS && selectorState == WAIT) {
         if (selectorPos - 1 >= 0) {
           selectorState = MOVE;
@@ -212,7 +262,8 @@ void Episode1::onKey(int key, int scancode, int action, int mods) {
       break;
     }
 
-    case GLFW_KEY_DOWN: {
+    case GLFW_KEY_DOWN:
+    {
       if (action == GLFW_PRESS && selectorState == WAIT) {
         if (selectorPos + 1 < N_BUTTONS) {
           selectorState = MOVE;
@@ -225,7 +276,8 @@ void Episode1::onKey(int key, int scancode, int action, int mods) {
       break;
     }
 
-    case GLFW_KEY_ENTER: {
+    case GLFW_KEY_ENTER:
+    {
       if (action == GLFW_RELEASE && selectorState == WAIT) {
         switch (selectorPos) {
         case 0: changeStage(Stages::RefuseToHelp); break;
@@ -259,46 +311,58 @@ std::unique_ptr<Scene> createEpisode1() {
 void Episode1::drawSelector() {
   float selectorYcoord = 0;
   switch (selectorState) {
-  case WAIT: {
+  case WAIT:
+  {
     selectorYcoord = getSelectorYCoord(1 + selectorPos);
     break;
   }
 
-  case MOVE: {
+  case MOVE:
+  {
     selectorYcoord = getSelectorYCoord(1 + oldSelectPos + fjfj::sign(selectorPos - oldSelectPos) * (timeFromStart - selectorMoveStart) / SELECTOR_ANIMATION_LENGTH);
     break;
   }
   }
   glUniform1f(alpha_aplha_location, 1);
   batch.draw(*ResourseManager::dialogeChoose.get(), alpha_model_location,
-    glm::vec2{0, selectorYcoord}, GlobalContext::SCREEN_WIDTH, 35);
+    glm::vec2{ 0, selectorYcoord }, GlobalContext::SCREEN_WIDTH, 35);
 }
 
 void Episode1::drawGopnik(float alpha) {
   glUniform1f(alpha_aplha_location, alpha);
-  batch.draw(*ResourseManager::gopnikTexture.get(), alpha_model_location, glm::vec2{0, 0}, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
+  batch.draw(*ResourseManager::gopnikTexture.get(), alpha_model_location, glm::vec2{ 0, 0 }, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
 }
 
 void Episode1::drawSadGopnik() {
   glUniform1f(alpha_aplha_location, 1);
-  batch.draw(*ResourseManager::gopnikSadTexture.get(), alpha_model_location, glm::vec2{0, 0}, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
+  batch.draw(*ResourseManager::gopnikSadTexture.get(), alpha_model_location, glm::vec2{ 0, 0 }, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
 }
 
 void Episode1::drawDefaultBackround(float alpha) {
   glUniform1f(alpha_aplha_location, alpha);
-  batch.draw(*ResourseManager::gopnikBackgroundTexture.get(), alpha_model_location, glm::vec2{0, 0}, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
+  batch.draw(*ResourseManager::gopnikBackgroundTexture.get(), alpha_model_location, glm::vec2{ 0, 0 }, GlobalContext::SCREEN_WIDTH, GlobalContext::SCREEN_HEIGHT);
 }
 
-void Episode1::drawQuestBackround(float complete) {
+void Episode1::drawQuestBackround(float complete, float alpha) {
   auto center = center0 + complete * (center1 - center0);
-  batch.draw(*ResourseManager::nightBackgroundTexture.get(), alpha_model_location, -center *2.0f / 3.0f, GlobalContext::SCREEN_WIDTH * 2, GlobalContext::SCREEN_HEIGHT);
+  batch.draw(*ResourseManager::nightBackgroundTexture.get(), alpha_model_location, -center * 2.0f / 3.0f, GlobalContext::SCREEN_WIDTH * 2, GlobalContext::SCREEN_HEIGHT);
 
-  batch.draw(*ResourseManager::episode1BackgroundTexture.get(), alpha_model_location, {0, 0}, GlobalContext::SCREEN_WIDTH * 3, GlobalContext::SCREEN_HEIGHT);
+  if (stage != Stages::CollectBar) {
+    glUniform1f(alpha_aplha_location, 1);
+    batch.draw(*ResourseManager::episode1BackgroundTexture.get(), alpha_model_location, { 0, 0 }, GlobalContext::SCREEN_WIDTH * 3, GlobalContext::SCREEN_HEIGHT);
+  } else {
+    glUniform1f(alpha_aplha_location, 1 - alpha);
+    batch.draw(*ResourseManager::episode1LightTexture.get(), alpha_model_location, { 0, 0 }, GlobalContext::SCREEN_WIDTH * 3, GlobalContext::SCREEN_HEIGHT);
+    glUniform1f(alpha_aplha_location, alpha);
+    batch.draw(*ResourseManager::episode1FriendTexture.get(), alpha_model_location, { 0, 0 }, GlobalContext::SCREEN_WIDTH * 3, GlobalContext::SCREEN_HEIGHT);
+  }
+
+
 }
 
 void Episode1::drawBubble(float alpha) {
   glUniform1f(alpha_aplha_location, alpha);
-  batch.draw(*ResourseManager::bubbleTexture.get(), alpha_model_location, glm::vec2{0.3, 0}, GlobalContext::SCREEN_WIDTH / 3, GlobalContext::SCREEN_HEIGHT / 3);
+  batch.draw(*ResourseManager::bubbleTexture.get(), alpha_model_location, glm::vec2{ 0.3, 0 }, GlobalContext::SCREEN_WIDTH / 3, GlobalContext::SCREEN_HEIGHT / 3);
 }
 
 void Episode1::drawQuestionText() {
@@ -312,7 +376,7 @@ void Episode1::drawQuestionText() {
 void Episode1::drawDialogInterface() {
   glUniform1f(alpha_aplha_location, 1);
   batch.draw(*ResourseManager::dialogeInterface.get(), alpha_model_location,
-    glm::vec2{0, 0}, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
+    glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
 
   drawSelector();
 }
@@ -329,17 +393,25 @@ void Episode1::drawDialogText() {
 }
 
 void Episode1::drawTrash() {
-  
+
   for (int i = 0; i < trashPositions.size(); i++) {
     fjfj::Texture* tex;
-    switch (i % 4) {
+    switch (i % 3) {
     case 0: tex = ResourseManager::trash1Texture.get(); break;
     case 1: tex = ResourseManager::trash2Texture.get(); break;
     case 2: tex = ResourseManager::trash3Texture.get(); break;
-    case 3: tex = ResourseManager::trash4Texture.get(); break;
     }
 
     batch.draw(*tex, alpha_model_location, trashPositions[i], 80, 80);
   }
+
+  if (!barCollected) {
+    batch.draw(*ResourseManager::trash4Texture.get(), alpha_model_location, { 1850, -200 }, 200, 300);
+  }
+}
+
+void Episode1::drawArrest() {
+  float percent = timeFromStart / HAND_TO_COPS_ANIMATION_LENGTH;
+  batch.draw(*ResourseManager::arrestTexture.get(), alpha_model_location, { 0, 0 }, GlobalContext::SCREEN_WIDTH * (1 + 0.1 * percent), GlobalContext::SCREEN_HEIGHT * (1 + 0.1 * percent));
 }
 

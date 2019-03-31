@@ -55,7 +55,7 @@ private:
 
   void drawDefaultBackround(float alpha = 1);
 
-  void drawQuestBackround(float alpha = 1);
+  void drawQuestBackround(float complete, float alpha = 1);
 
   void drawBubble(float alpha = 1);
 
@@ -66,6 +66,8 @@ private:
   void drawDialogText();
 
   void drawTrash();
+
+  void drawArrest();
 
   float timeFromStart;
   int numPieces;
@@ -95,6 +97,8 @@ private:
   static const float BUBBLE_LENGTH;
   static const float SELECTOR_ANIMATION_LENGTH;
   static const float REFUSE_TO_HELP_LENGTH;
+  static const float COLLECT_BAR_ANIMATION_LENGTH;
+  static const float HAND_TO_COPS_ANIMATION_LENGTH;
   static const glm::vec2 SPEED;
 };
 

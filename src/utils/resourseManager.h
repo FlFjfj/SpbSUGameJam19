@@ -13,6 +13,7 @@ public:
   static std::unique_ptr <fjfj::Shader> simpleShader;
   static std::unique_ptr <fjfj::Shader> animatedShader;
   static std::unique_ptr <fjfj::Shader> alphaShader;
+  static std::unique_ptr <fjfj::Shader> postShader;
 
   static std::unique_ptr <fjfj::Texture> fontTexture;
 
@@ -29,6 +30,9 @@ public:
   static std::unique_ptr <fjfj::Texture> episodesTexture;
 
   static std::unique_ptr <fjfj::Texture> episode1BackgroundTexture;
+  static std::unique_ptr <fjfj::Texture> episode1FriendTexture;
+  static std::unique_ptr <fjfj::Texture> episode1LightTexture;
+  static std::unique_ptr <fjfj::Texture> arrestTexture;
   static std::unique_ptr <fjfj::Texture> gopnikBackgroundTexture;
   static std::unique_ptr <fjfj::Texture> gopnikSadTexture;
   static std::unique_ptr <fjfj::Texture> nightBackgroundTexture;
@@ -39,6 +43,7 @@ public:
 
   static std::unique_ptr <fjfj::Texture> ep2dialogBack;
   static std::unique_ptr <fjfj::Texture> ep2gameplayBack;
+  static std::unique_ptr <fjfj::Texture> ep2human;
 
   static std::unique_ptr <fjfj::Texture> bad1;
   static std::unique_ptr <fjfj::Texture> bad2;

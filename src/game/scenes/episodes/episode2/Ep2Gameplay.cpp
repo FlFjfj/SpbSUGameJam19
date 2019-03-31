@@ -99,23 +99,4 @@ void Episode2Gameplay::draw(float complete) {
       (float)GlobalContext::SCREEN_WIDTH / 2, (float)GlobalContext::SCREEN_HEIGHT / 3);
   }
 
-  //
-  //batch.draw(*ResourseManager::kachokTexture.get(), simple_model_location,
-  //  glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
-  //
-  //batch.draw(*ResourseManager::dialogeInterface.get(), simple_model_location,
-  //  glm::vec2{ 0, 0 }, (float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_HEIGHT);
-  //
-  //if (state == MOVE) {
-  //  float diff = fjfj::lerp(0, moveDown ? 1 : -1 , 1.0 - (progress + complete / 5.0f));
-  //  batch.draw(*ResourseManager::dialogeChoose.get(), simple_model_location,
-  //    glm::vec2{ 0, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * (3 - choosenVariant + diff) }, GlobalContext::SCREEN_WIDTH, 35);
-  //} else {
-  //  batch.draw(*ResourseManager::dialogeChoose.get(), simple_model_location,
-  //    glm::vec2{ 0, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * (3 - choosenVariant) }, GlobalContext::SCREEN_WIDTH, 35);
-  //}
-  //
-  //font.draw(&batch, &camera, L"просить помочь друга слева",      -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 3, 20, 30);
-  //font.draw(&batch, &camera, L"просить помочь друга справа",     -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 2, 20, 30);
-  //font.draw(&batch, &camera, L"шо тот... шо этот... пойду один", -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 1, 20, 30);
 }
