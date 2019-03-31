@@ -82,8 +82,8 @@ void Episode1::update() {
 
   case Stages::HelpToCollect:
   {
-    if (numPieces >= 10) {
-      GlobalContext::cash += (numPieces - 1) * 2 + barCollected ? 100 : 0;
+    if (numPieces == trashPositions.size() && barCollected) {
+      GlobalContext::hasCash = true;
       changeStage(Stages::Ending);
     }
 
@@ -117,6 +117,7 @@ void Episode1::update() {
   {
     if (timeFromStart > HAND_TO_COPS_ANIMATION_LENGTH) {
       GlobalContext::broAvialable[0] = 0;
+      GlobalContext::police = true;
       changeStage(Stages::Ending);
     }
 
@@ -127,6 +128,7 @@ void Episode1::update() {
   {
     if (timeFromStart > COLLECT_BAR_ANIMATION_LENGTH) {
       GlobalContext::broAvialable[1] = 0;
+      GlobalContext::bar = true;
       stage = Stages::HelpToCollect;
     }
 
@@ -135,12 +137,7 @@ void Episode1::update() {
 
   case Stages::Ending:
   {
-    if (numPieces >= 10) {
-      GlobalContext::cash += (numPieces - 1) * 2 + barCollected ? 100 : 0;
-    }
-
     GlobalContext::changeScene(GlobalContext::episodesScreen.get());
-
     break;
   }
   }
@@ -369,8 +366,8 @@ void Episode1::drawQuestionText() {
   float textX = -100;
   float textY = 50;
 
-  font.draw(&batch, &camera, L"помоги собрать", textX + 0, textY + 0, 20, 30);
-  font.draw(&batch, &camera, L"металлолом", textX + 0, textY - 35, 20, 30);
+  font.draw(&batch, &camera, L"помоги украсть", textX + 0, textY + 0, 20, 30);
+  font.draw(&batch, &camera, L"железо на металлолом", textX - 100, textY - 35, 20, 30);
 }
 
 void Episode1::drawDialogInterface() {
@@ -387,8 +384,8 @@ void Episode1::drawDialogText() {
   auto y3 = getSelectorYCoord(3);
   float x = -600;
 
-  font.draw(&batch, &camera, L"не помогать", x + 0, y1 + 0, 20, 30);
-  font.draw(&batch, &camera, L"помогать", x + 0, y2 + 0, 20, 30);
+  font.draw(&batch, &camera, L"отказаться", x + 0, y1 + 0, 20, 30);
+  font.draw(&batch, &camera, L"согласиться", x + 0, y2 + 0, 20, 30);
   font.draw(&batch, &camera, L"сдать копам", x + 0, y3 + 0, 20, 30);
 }
 

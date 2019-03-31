@@ -10,9 +10,9 @@
 #include <BitmapFont.h>
 
 
-class Episode2 : public Scene {
+class FinalChoice : public Scene {
 public:
-  Episode2();
+  FinalChoice();
 
   void init() override;
   void enter() override;
@@ -30,12 +30,9 @@ private:
   float timeElapsed = 0;
 
   float progress = 0;
-  int choosenVariant = 1;
-  bool moveDown = true;
+  int textPart = 0;
 
   enum DialogeState {
-    WAIT, MOVE
+    WAIT, MOVE,
   } state = WAIT;;
 };
-
-std::unique_ptr<Scene> createEpisode2();

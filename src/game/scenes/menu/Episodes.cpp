@@ -22,6 +22,12 @@ void EpisodesScene::init() {
 void EpisodesScene::enter() {
   state = EXIT;
   progress = 0;
+
+  if (currentScreen == GlobalContext::eposides.size()) {
+    GlobalContext::changeScene(GlobalContext::startMenu.get());
+    currentScreen = 0;
+    GlobalContext::reset();
+  }
 }
 
 void EpisodesScene::update() {
@@ -30,7 +36,7 @@ void EpisodesScene::update() {
   switch (state) {
   case EXIT:
   {
-    progress += 1 / 20.0f;
+    progress += 1 / 40.0f;
     if (progress >= 1.0f) {
       progress = 0;
       currentScreen++;
@@ -42,7 +48,7 @@ void EpisodesScene::update() {
 
   case MOVE:
   {
-    progress += 1 / 40.0f;
+    progress += 1 / 80.0f;
     if (progress >= 1.0f) {
       progress = 0;
       state = ENTER;
@@ -53,7 +59,7 @@ void EpisodesScene::update() {
 
   case ENTER:
   {
-    progress += 1 / 20.0f;
+    progress += 1 / 40.0f;
     if (progress >= 1.0f) {
       GlobalContext::changeScene(GlobalContext::eposides[currentScreen - 1].get());
     }
@@ -67,7 +73,7 @@ void EpisodesScene::draw(float delta) {
   float x, y, width, height;
 
   if (state == MOVE) {
-    float progress = this->progress + delta / 40.0f;
+    float progress = this->progress + delta / 80.0f;
     x = fjfj::lerp(screenData[currentScreen - 1][0], screenData[currentScreen][0], progress);
     y = fjfj::lerp(screenData[currentScreen - 1][1], screenData[currentScreen][1], progress);
     width = fjfj::lerp(screenData[currentScreen - 1][2], screenData[currentScreen][2], progress);
@@ -80,13 +86,13 @@ void EpisodesScene::draw(float delta) {
   }
 
   if (state == EXIT) {
-    float progress = this->progress + delta / 20.0f;
+    float progress = this->progress + delta / 40.0f;
     camera.width = fjfj::lerp((float)GlobalContext::SCREEN_WIDTH / 2, (float)GlobalContext::SCREEN_WIDTH, progress);
     camera.height = fjfj::lerp((float)GlobalContext::SCREEN_HEIGHT / 2, (float)GlobalContext::SCREEN_HEIGHT, progress);
   }
 
   if (state == ENTER) {
-    float progress = this->progress + delta / 20.0f;
+    float progress = this->progress + delta / 40.0f;
     camera.width = fjfj::lerp((float)GlobalContext::SCREEN_WIDTH, (float)GlobalContext::SCREEN_WIDTH / 2, progress);
     camera.height = fjfj::lerp((float)GlobalContext::SCREEN_HEIGHT, (float)GlobalContext::SCREEN_HEIGHT / 2, progress);
   }
@@ -105,7 +111,7 @@ void EpisodesScene::draw(float delta) {
   glUniform1f(animated_time_location, elapsedTime + delta * GlobalContext::TICK_DELTA);
   glUniform1f(animated_frameTime_location, noiseSpeed);
   glUniform1i(animated_frameCount_location, noiseFrames);
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 4; i++) {
     batch.draw(*ResourseManager::noiseTexture.get(), animated_model_location, glm::vec2{(x - screenData[i][0]) * scalex, (y - screenData[i][1]) * scaley}, screenData[i][4] * scalex, screenData[i][5] * scaley);
   }
 

@@ -10,14 +10,16 @@
 #include <BitmapFont.h>
 
 
-class Episode2 : public Scene {
+class Episode3 : public Scene {
 public:
-  Episode2();
+  Episode3();
 
   void init() override;
   void enter() override;
   void update() override;
   void draw(float complete) override;
+
+  float getSelectorYCoord(float pos);
 
 private:
   fjfj::OrthographicCamera camera;
@@ -31,11 +33,18 @@ private:
 
   float progress = 0;
   int choosenVariant = 1;
-  bool moveDown = true;
+  int selectorPos = 1;
+  int oldSelectorPos = 1;
+  std::vector<int> available_indexes;
+
+  bool drawBuy;
+  bool drawBar;
+  bool drawCite;
+  bool drawOutofCash;
 
   enum DialogeState {
-    WAIT, MOVE
+    WAIT, MOVE, FINALIZE
   } state = WAIT;;
 };
 
-std::unique_ptr<Scene> createEpisode2();
+std::unique_ptr<Scene> createEpisode3();

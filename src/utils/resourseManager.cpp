@@ -37,6 +37,8 @@ std::unique_ptr <fjfj::Texture> ResourseManager::ep2dialogBack;
 std::unique_ptr <fjfj::Texture> ResourseManager::ep2gameplayBack;
 std::unique_ptr <fjfj::Texture> ResourseManager::ep2human;
 
+std::unique_ptr <fjfj::Texture> ResourseManager::doctor;
+
 std::unique_ptr <fjfj::Texture> ResourseManager::bad1;
 std::unique_ptr <fjfj::Texture> ResourseManager::bad2;
 std::unique_ptr <fjfj::Texture> ResourseManager::bad3;
@@ -80,6 +82,8 @@ void ResourseManager::initResourses() {
   ep2dialogBack   = std::make_unique<fjfj::Texture>("assets/texture/episode2/dialogBackground.png");
   ep2gameplayBack = std::make_unique<fjfj::Texture>("assets/texture/episode2/bricks.png");
   ep2human= std::make_unique<fjfj::Texture>("assets/texture/episode2/human.png");
+
+  doctor = std::make_unique<fjfj::Texture>("assets/texture/doctor.png");
 
   bad1 = std::make_unique<fjfj::Texture>("assets/texture/episode2/bad1.png");
   bad2 = std::make_unique<fjfj::Texture>("assets/texture/episode2/bad2.png");

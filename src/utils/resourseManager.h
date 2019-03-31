@@ -45,6 +45,8 @@ public:
   static std::unique_ptr <fjfj::Texture> ep2gameplayBack;
   static std::unique_ptr <fjfj::Texture> ep2human;
 
+  static std::unique_ptr <fjfj::Texture> doctor;
+
   static std::unique_ptr <fjfj::Texture> bad1;
   static std::unique_ptr <fjfj::Texture> bad2;
   static std::unique_ptr <fjfj::Texture> bad3;

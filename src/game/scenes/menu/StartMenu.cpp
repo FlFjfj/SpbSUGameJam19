@@ -20,7 +20,10 @@ void StartMenu::init() {
 }
 
 void StartMenu::enter() {
-
+  state = WAIT;
+  progress = 0;
+  camera.width = (float)GlobalContext::SCREEN_WIDTH;
+  camera.height = (float)GlobalContext::SCREEN_HEIGHT;
 }
 
 void StartMenu::update() {

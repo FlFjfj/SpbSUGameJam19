@@ -18,11 +18,11 @@ struct GlobalContext {
   static std::unique_ptr<Scene> startMenu;
   static std::unique_ptr<Scene> episodesScreen;
   static std::vector<std::unique_ptr<Scene>> eposides;
-  static int nEpisodes;
-  static int nBro;
-  static int cash;
-  static int health;
-  static std::vector<bool> episodeAvialable;
+  static bool hasCash;
+  static bool police;
+  static bool bar;
+  static bool goodCites;
+  static bool badCites;
   static std::vector<bool> broAvialable;
 
   static const int SCREEN_WIDTH;

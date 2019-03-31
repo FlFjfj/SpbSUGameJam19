@@ -26,7 +26,7 @@ void Episode2::update() {
   case WAIT:
   {
     auto state = glfwGetKey(GlobalContext::window, GLFW_KEY_DOWN);
-    if (state == GLFW_PRESS && choosenVariant != 2) {
+    if (state == GLFW_PRESS && choosenVariant != 3) {
       progress = 0;
       moveDown = true;
       choosenVariant++;
@@ -35,7 +35,7 @@ void Episode2::update() {
     }
 
     state = glfwGetKey(GlobalContext::window, GLFW_KEY_UP);
-    if (state == GLFW_PRESS && choosenVariant != 0) {
+    if (state == GLFW_PRESS && choosenVariant != 1) {
       progress = 0;
       moveDown = false;
       choosenVariant--;
@@ -90,9 +90,10 @@ void Episode2::draw(float complete) {
       glm::vec2{ 0, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * (3 - choosenVariant) }, GlobalContext::SCREEN_WIDTH, 35);
   }
 
-  font.draw(&batch, &camera, L"просить помочь друга слева",      -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 3, 20, 30);
-  font.draw(&batch, &camera, L"просить помочь друга справа",     -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 2, 20, 30);
-  font.draw(&batch, &camera, L"шо тот... шо этот... пойду один", -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 1, 20, 30);
+  font.draw(&batch, &camera, L"тебе надо стереть надписи со стен, кого звать?",      -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 3, 20, 30);
+  font.draw(&batch, &camera, L"просить помочь друга слева",      -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 2, 20, 30);
+  font.draw(&batch, &camera, L"просить помочь друга справа",     -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 1, 20, 30);
+  font.draw(&batch, &camera, L"шо тот... шо этот... пойду один", -GlobalContext::SCREEN_WIDTH / 2 + 30, -GlobalContext::SCREEN_HEIGHT / 2 + 30 + 42 * 0, 20, 30);
 }
 
 std::unique_ptr<Scene> createEpisode2() {
