@@ -1,8 +1,14 @@
 #pragma once
 
+#include <GL/glew.h>
+
 #include <memory>
-#include <game/GlobalContext.h>
-#include <iostream>
+
+#include <OrthographicCamera.h>
+#include <SpriteBatch.h>
+#include <BitmapFont.h>
+
+#include <game/Scene.h>
 /*
  Player can
     help friend0 to collect scrap metal (HelpToCollect)
@@ -37,15 +43,28 @@ public:
   void onKey(int key, int scancode, int action, int mods) override;
 
 private:
+  void changeStage(Stages stage1);
+ 
   float timeFromStart;
   int numPieces;
   bool barCollected;
   Stages stage;
   int buttonPos;
-  void changeStage(Stages stage1);
+
+  fjfj::OrthographicCamera camera;
+  fjfj::SpriteBatch batch;
+  fjfj::BitmapFont font;
+
+  GLint alpha_model_location = -2;
+  GLint alpha_proj_location = -2;
+  GLint alpha_aplha_location = -2;
 
   static const int N_BUTTONS;
   static const float INTRO_STAGE_LENGTH;
+  static const float GOPNIK_START_TIME;
+  static const float GOPNIK_LENGTH;
+  static const float BUBBLE_START_TIME;
+  static const float BUBBLE_LENGTH;
 };
 
 std::unique_ptr<Scene> createEpisode1();
