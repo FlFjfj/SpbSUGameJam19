@@ -42,14 +42,35 @@ public:
   void onMouseButton(int button, int action, int mods) override;
   void onKey(int key, int scancode, int action, int mods) override;
 
+  float getSelectorYCoord(float pos);
+
 private:
   void changeStage(Stages stage1);
+
+  void drawSelector();
+
+  void drawGopnik(float alpha=1);
+
+  void drawSadGopnik();
+
+  void drawBackround(float alpha=1);
+
+  void drawBubble(float alpha=1);
+
+  void drawQuestionText();
+
+  void drawDialogInterface();
+
+  void drawDialogText();
  
   float timeFromStart;
   int numPieces;
   bool barCollected;
   Stages stage;
-  int buttonPos;
+  int selectorPos;
+  float selectorMoveStart;
+  int selectorState;
+  int oldSelectPos;
 
   fjfj::OrthographicCamera camera;
   fjfj::SpriteBatch batch;
@@ -65,6 +86,8 @@ private:
   static const float GOPNIK_LENGTH;
   static const float BUBBLE_START_TIME;
   static const float BUBBLE_LENGTH;
+  static const float SELECTOR_ANIMATION_LENGTH;
+  static const float REFUSE_TO_HELP_LENGTH;
 };
 
 std::unique_ptr<Scene> createEpisode1();

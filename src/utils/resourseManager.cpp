@@ -61,7 +61,7 @@ void ResourseManager::initResourses() {
 
   episode1BackgroundTexture = std::make_unique<fjfj::Texture>("assets/texture/episode1/episode1Background.png");
   gopnikBackgroundTexture = std::make_unique<fjfj::Texture>("assets/texture/episode1/gopnikBackground.png");
-  gopnikSadTexture = std::make_unique<fjfj::Texture>("assets/texture/episode1/gopnikSad.png");
+  gopnikSadTexture = std::make_unique<fjfj::Texture>("assets/texture/friends/gopnikSad.png");
   nightBackgroundTexture = std::make_unique<fjfj::Texture>("assets/texture/episode1/nightBackground.png");
   trash1Texture = std::make_unique<fjfj::Texture>("assets/texture/episode1/trash1.png");
   trash2Texture = std::make_unique<fjfj::Texture>("assets/texture/episode1/trash2.png");

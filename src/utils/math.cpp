@@ -12,3 +12,7 @@ float fjfj::clamp(float val, float minimum, float maximum) {
 
   return val;
 }
+
+float fjfj::sign(float x) {
+  return x > 0 ? 1 : -1;
+}

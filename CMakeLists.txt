@@ -31,7 +31,7 @@ file (GLOB_RECURSE TEST_FILES
 file (GLOB_RECURSE EPISODES_FILES
         src/game/scenes/episodes/*.cpp
         src/game/scenes/episodes/*.h
-        )
+)
 
 add_executable(game ${CORE_SOURCE} ${MENU_SCENES} ${TEST_FILES} ${EPISODES_FILES})
 target_link_libraries(game GlUtils)
